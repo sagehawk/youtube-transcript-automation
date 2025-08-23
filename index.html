@@ -265,7 +265,11 @@ function generateLinks() {
     for (const url of urls) {
         const listItem = document.createElement('li');
         const link = document.createElement('a');
-        link.href = url;
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+          link.href = 'https://' + url;
+        } else {
+          link.href = url;
+        }
         link.textContent = url;
         link.target = '_blank';
         link.addEventListener('click', updateProgress);
