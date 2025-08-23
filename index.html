@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>URL List</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #181818;
+        color: #FFFFFF;
+        margin: 0;
+        padding: 2em;
+    }
+    h1 {
+        color: #FFFFFF;
+        border-bottom: 2px solid #3d3d3d;
+        padding-bottom: 10px;
+    }
+    #url-input {
+        width: 100%;
+        height: 150px;
+        background-color: #121212;
+        color: #FFFFFF;
+        border: 1px solid #3d3d3d;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 1em;
+        margin-bottom: 1em;
+    }
+    button, #complete-link {
+        background-color: #FF0000;
+        color: #FFFFFF;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1em;
+        font-weight: bold;
+        border-radius: 2px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1em;
+    }
+    #url-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    a {
+        color: #FF0000;
+        text-decoration: none;
+    }
+    #url-list li a {
+        color: #CCCCCC;
+    }
+    #tutorial-section li {
+        line-height: 1.6;
+        margin-bottom: 1em;
+    }
+    summary {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+    summary::before {
+        content: '\25B6';
+        margin-right: 0.5em;
+        color: #FF0000;
+    }
+    details[open] > summary::before {
+        content: '\25BC';
+    }
+    #url-list {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #3d3d3d;
+        padding: 10px;
+        border-radius: 4px;
+    }
+    #url-list li a:hover {
+        text-decoration: underline;
+    }
+    #completion-view {
+        display: none;
+        text-align: center;
+    }
+    #completion-view h1 {
+        font-size: 3em;
+        font-weight: bold;
+    }
+    #completion-view p {
+        font-size: 1.5em;
+    }
+    #completion-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #completion-links a:hover {
+        text-decoration: underline;
+    }
+    #ready-button {
+        background-color: #FF0000;
+    }
+    #progress-container {
+        margin-top: 1em;
+    }
+    #progress-bar-outline {
+        border: 1px solid #3d3d3d;
+        border-radius: 4px;
+        height: 20px;
+        width: 100%;
+    }
+    #progress-bar {
+        background: linear-gradient(to right, #FF0000, #d10000);
+        height: 100%;
+        width: 0%;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h1>YouTube Bulk URL to Transcript Automation</h1>
+
+<div id="main-content">
+    <div id="downloads-section">
+        <h2>Downloads</h2>
+        <ul>
+            <li><a href="transcript_grabber.ahk" download>Download transcript_grabber.ahk</a></li>
+            <li><a href="https://www.autohotkey.com/" target="_blank">Download AutoHotkey v2.0</a></li>
+        </ul>
+    </div>
+
+    <div id="extension-links">
+        <h2>Required Chrome Extensions:</h2>
+        <ul>
+            <li><a href="https://chromewebstore.google.com/detail/youtube-summary-with-chat/nmmicjeknamkfloonkhhcjmomieiodli" target="_blank">YouTube Summary</a></li>
+            <li><a href="https://chromewebstore.google.com/detail/link-grabber/jfkaiopedjohkgccocjchpbpekbfnidc" target="_blank">Link Grabber</a></li>
+            <li><a href="https://chromewebstore.google.com/detail/mouse-coordinates/mfohnjojhopfcahiddmeljeholnciakl" target="_blank">Mouse Coordinates</a></li>
+        </ul>
+    </div>
+
+    <div id="tutorial-section">
+        <details>
+            <summary><h2>Tutorial</h2></summary>
+            <h3>Setup &amp; Collecting Links</h3>
+            <ol>
+                <li>Download everything listed above.</li>
+                <li>Go to the target YouTube channel → open the <strong>Videos</strong> tab → scroll to the bottom until all videos load.</li>
+                <li>Open the <strong>Link Grabber</strong> extension:
+                    <ul>
+                        <li>Select <strong>Page</strong></li>
+                        <li>Click <strong>Grab All!</strong></li>
+                    </ul>
+                </li>
+                <li>In the <strong>Filters</strong> field, type <code>now</code>.</li>
+                <li>Check the box at the top-left to select all links.</li>
+                <li>From the <strong>Copy</strong> dropdown, select <strong>URLs</strong>.</li>
+                <li>Paste the URLs into this site’s text field and click <strong>Generate</strong>.</li>
+            </ol>
+
+            <h3>Setting Up the Script</h3>
+            <ol start="8">
+                <li>Open any YouTube video and maximize the browser window (not full screen).</li>
+                <li>With <strong>Mouse Coordinates</strong>, hover over the <strong>down arrow</strong> next to “Transcript &amp; Summary” → press <kbd>c</kbd>.</li>
+                <li>Open <code>transcript_grabber.ahk</code> in a text editor → paste those coordinates into <strong>Point 1</strong>.</li>
+                <li>Go back to YouTube → click the dropdown → hover over the <strong>clipboard</strong> icon → press <kbd>c</kbd> → paste into <strong>Point 2</strong> of the script.</li>
+                <li>Save the script, exit, and uninstall the Mouse Coordinates extension.</li>
+                <li>Run the script by double-clicking it.</li>
+            </ol>
+
+            <h3>Capturing Transcripts</h3>
+            <ol start="14">
+                <li>Create a new empty text file in any folder.</li>
+                <li>Return immediately to your browser (don’t open other apps).  
+                    <br>If you accidentally do, reopen your text editor, then return to the browser.</li>
+                <li>Click <strong>Ready</strong> → press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd>.  
+                    <br>Wait until all transcripts are copied — don’t touch anything.</li>
+                <li>When finished, press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>P</kbd>.</li>
+                <li>Go to your text editor → press <kbd>Ctrl</kbd>+<kbd>S</kbd> to save a backup.  
+                    <br><strong>Do not undo or edit until saved, or you may lose everything.</strong></li>
+            </ol>
+
+            <h3>Final Step</h3>
+            <ol start="19">
+                <li>Open <a href="https://wordcounter.io/" target="_blank">wordcounter.io</a>.</li>
+                <li>Split your transcript file into <strong>500,000-word chunks</strong> for NotebookLM.</li>
+            </ol>
+        </details>
+    </div>
+
+    <h1>Paste YouTube URLs</h1>
+    <textarea id="url-input" placeholder="Paste your URLs here, one per line"></textarea>
+    <br>
+    <button onclick="generateLinks()">Generate Links</button>
+
+    <div id="autohotkey-section">
+        <ol>
+            <li>Go to your documents folder, open the AutoHotkey folder, and run the <strong>transcript_grabber.ahk</strong> script.</li>
+            <li><strong>Important:</strong> Open a blank text editor file, then go directly back to this website.</li>
+            <li>Click the button when you are ready.</li>
+        </ol>
+        <button id="ready-button" onclick="readyAutomation()">Ready</button>
+        <p id="automation-message" style="display: none; font-weight: bold;">Press Ctrl+Alt+S to begin the automation.</p>
+    </div>
+
+    <h1>URL List</h1>
+    <ul id="url-list"></ul>
+
+    <div id="progress-container" style="display: none;">
+        <p><span id="progress-text">0/0</span> videos transcribed</p>
+        <div id="progress-bar-outline">
+            <div id="progress-bar"><span id="progress-bar-percentage">0%</span></div>
+        </div>
+    </div>
+
+    <a href="complete.html" id="complete-link" target="_blank">Complete</a>
+</div>
+
+<div id="completion-view">
+    <h1>Press ctrl alt p to stop the automation</h1>
+    <p>Press escape to start over</p>
+    <div id="completion-links"></div>
+</div>
+
+<audio id="success-audio" src="success.mp3" loop></audio>
+
+<script>
+function readyAutomation() {
+    const readyButton = document.getElementById('ready-button');
+    readyButton.style.backgroundColor = 'green';
+    document.getElementById('automation-message').style.display = 'inline';
+}
+
+let totalLinks = 0;
+let openedLinks = 0;
+
+function updateProgress() {
+    openedLinks++;
+    const percentage = Math.round((openedLinks / totalLinks) * 100);
+    document.getElementById('progress-bar').style.width = percentage + '%';
+    document.getElementById('progress-text').textContent = openedLinks + '/' + totalLinks;
+    document.getElementById('progress-bar-percentage').textContent = percentage + '%';
+}
+
+function generateLinks() {
+    const urlInput = document.getElementById('url-input');
+    const urlList = document.getElementById('url-list');
+    const urls = urlInput.value.split('\n').filter(url => url.trim() !== '');
+
+    totalLinks = urls.length;
+    openedLinks = 0;
+    urlList.innerHTML = '';
+
+    if (totalLinks > 0) {
+        document.getElementById('progress-container').style.display = 'block';
+        document.getElementById('progress-bar').style.width = '0%';
+        document.getElementById('progress-text').textContent = '0/' + totalLinks;
+    }
+
+    for (const url of urls) {
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = url;
+        link.textContent = url;
+        link.target = '_blank';
+        link.addEventListener('click', updateProgress);
+        listItem.appendChild(link);
+        urlList.appendChild(listItem);
+    }
+}
+
+function showCompletionView() {
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('completion-view').style.display = 'block';
+    document.getElementById('success-audio').play();
+
+    const completionLinks = document.getElementById('completion-links');
+    completionLinks.innerHTML = '';
+    for (let i = 0; i < 1000; i++) {
+        const link = document.createElement('a');
+        link.href = 'complete.html';
+        link.textContent = 'Complete';
+        link.target = '_blank';
+        completionLinks.appendChild(link);
+    }
+}
+
+function hideCompletionView() {
+    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('completion-view').style.display = 'none';
+    document.getElementById('success-audio').pause();
+    document.getElementById('success-audio').currentTime = 0;
+}
+
+document.getElementById('complete-link').addEventListener('click', function() {
+    showCompletionView();
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        hideCompletionView();
+    } else if (event.ctrlKey && event.shiftKey && event.key === 'P') {
+        hideCompletionView();
+    }
+});
+</script>
+
+</body>
+</html>

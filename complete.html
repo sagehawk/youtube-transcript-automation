@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Complete!</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+<style>
+    body {
+        background-color: #181818;
+        color: #FFFFFF;
+        text-align: center;
+        padding-top: 15%;
+        font-family: 'Roboto', sans-serif;
+    }
+    h1 {
+        font-size: 4em;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body onclick="copySpace()">
+
+<h1>press ctrl alt p to stop the automation</h1>
+
+<script>
+function copySpace() {
+    navigator.clipboard.writeText(' ').then(function() {
+        console.log('A space has been copied to your clipboard.');
+    }, function(err) {
+        console.error('Could not copy text: ', err);
+    });
+}
+</script>
+
+</body>
+</html>
