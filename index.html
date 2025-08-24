@@ -286,11 +286,18 @@ function showCompletionView() {
     const completionLinks = document.getElementById('completion-links');
     completionLinks.innerHTML = '';
 
-    // Single self-looping link
+    // Create one Complete link
     const link = document.createElement('a');
-    link.href = 'complete.html';   // reloads this page
+    link.href = '#';  // prevent default navigation
     link.textContent = 'Complete';
     link.target = '_blank';
+
+    // When clicked/entered → open new window + refresh this page
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open('complete.html', '_blank'); // open new tab
+        location.reload(); // refresh current page
+    });
 
     completionLinks.appendChild(link);
 }
