@@ -285,13 +285,14 @@ function showCompletionView() {
 
     const completionLinks = document.getElementById('completion-links');
     completionLinks.innerHTML = '';
-    for (let i = 0; i < 1000; i++) {
-        const link = document.createElement('a');
-        link.href = 'complete.html';
-        link.textContent = 'Complete';
-        link.target = '_blank';
-        completionLinks.appendChild(link);
-    }
+
+    // Single self-looping link
+    const link = document.createElement('a');
+    link.href = 'complete.html';   // reloads this page
+    link.textContent = 'Complete';
+    link.target = '_blank';
+
+    completionLinks.appendChild(link);
 }
 
 function hideCompletionView() {
