@@ -278,29 +278,8 @@ function generateLinks() {
     }
 }
 
-function showCompletionView() {
-    document.getElementById('main-content').style.display = 'none';
-    document.getElementById('completion-view').style.display = 'block';
-    document.getElementById('success-audio').play();
 
-    const completionLinks = document.getElementById('completion-links');
-    completionLinks.innerHTML = '';
 
-    // Create one Complete link
-    const link = document.createElement('a');
-    link.href = '#';  // prevent default navigation
-    link.textContent = 'Complete';
-    link.target = '_blank';
-
-    // When clicked/entered → open new window + refresh this page
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.open('complete.html', '_blank'); // open new tab
-        location.reload(); // refresh current page
-    });
-
-    completionLinks.appendChild(link);
-}
 
 function hideCompletionView() {
     document.getElementById('main-content').style.display = 'block';
@@ -321,6 +300,43 @@ document.addEventListener('keydown', function(event) {
     }
 });
 </script>
+<script>
+    function makeInfiniteCompleteLink(container) {
+        container.innerHTML = '';
 
+        const link = document.createElement('a');
+        link.href = 'complete.html';
+        link.textContent = 'Complete';
+        link.target = '_blank';
+
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // 1) Open the new tab where your script does its work
+            window.open('complete.html', '_blank', 'noopener');
+
+            // 2) Reset the focus loop on the base page:
+            //    - blur the link
+            //    - remove it from the DOM
+            //    - reinsert it next frame so the next TAB will hit it again
+            const el = e.currentTarget;
+            el.blur();
+            const parent = el.parentNode;
+            parent.removeChild(el);
+            requestAnimationFrame(() => parent.appendChild(el));
+        });
+
+        container.appendChild(link);
+    }
+
+    function showCompletionView() {
+        document.getElementById('main-content').style.display = 'none';
+        document.getElementById('completion-view').style.display = 'block';
+        document.getElementById('success-audio').play();
+
+        const completionLinks = document.getElementById('completion-links');
+        makeInfiniteCompleteLink(completionLinks);
+}
+</script>
 </body>
 </html>
