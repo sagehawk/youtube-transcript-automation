@@ -227,7 +227,7 @@
     <div id="completion-links"></div>
 </div>
 
-<audio id="success-audio" src="success.mp3" loop></audio>
+<audio id="success-audio" src="success.mp3"></audio>
 
 <script>
 function readyAutomation() {
@@ -278,14 +278,13 @@ function generateLinks() {
     }
 }
 
-
-
-
 function hideCompletionView() {
     document.getElementById('main-content').style.display = 'block';
     document.getElementById('completion-view').style.display = 'none';
-    document.getElementById('success-audio').pause();
-    document.getElementById('success-audio').currentTime = 0;
+
+    const successAudio = document.getElementById('success-audio');
+    successAudio.pause();
+    successAudio.currentTime = 0;  // reset so next show starts fresh
 }
 
 document.getElementById('complete-link').addEventListener('click', function() {
